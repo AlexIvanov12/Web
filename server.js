@@ -8,29 +8,26 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const messages_list = []
+const messages_list = [
+]
 
 
-app.get('/message', (req, res) => 
-{
+app.get('/message', (req, res) => {
   messages_list.push(req.query.text)
   res.statusCode = 200
   res.send()
 })
 
-app.get('/read', (req, res) =>
-{
-    res.send(messages_list)
-    console.log(messages_list)
+app.get('/read', (req, res) => {
+  res.send(messages_list)
+  console.log(messages_list)
 })
 
-app.get('/', function(req, res)
-{
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
-  });
+});
 
-app.listen(port, () => 
-{
+app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 

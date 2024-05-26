@@ -1,20 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
 </head>
+
 <body>
-    
+
+  <h3>Send message</h3>
+  <input type="text" id="myInput" placeholder="Enter something">
+  <button onclick="sendMessage()">Send message</button>
+
+  <h3 id="someId">Messages:</h3>
+  <div id="container"></div>
+  <button onclick="displayMessage()">
+    Refresh
+  </button>
+
 </body>
 <script>
-    async function logMessages() 
-{
-  const response = await fetch("http://127.0.0.1:3000/read");
-  const messages = await response.json();
-  console.log(messages);
-}
-logMessages()
+
+
+  async function sendMessage() {
+    const inputElement = document.getElementById('myInput');
+    const inputValue = inputElement.value;
+    const response = await fetch("http://127.0.0.1:3000/message?text=" + inputValue);
+  }
+
+
+  async function displayMessage() {
+    const response = await fetch("http://127.0.0.1:3000/read");
+    const messages = await response.json();
+
+    const container = document.getElementById("container")
+    container.innerHTML = ""
+
+    for (const message of messages) {
+      const p = document.createElement("p")
+      p.textContent = message
+      container.appendChild(p)
+    }
+  }
+
 </script>
+
 </html>
