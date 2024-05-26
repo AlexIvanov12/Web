@@ -26,12 +26,12 @@
   async function sendMessage() {
     const inputElement = document.getElementById('myInput');
     const inputValue = inputElement.value;
-    const response = await fetch("http://127.0.0.1:3000/message?text=" + inputValue);
+    const response = await fetch("/message?text=" + inputValue);
   }
 
 
   async function displayMessage() {
-    const response = await fetch("http://127.0.0.1:3000/read");
+    const response = await fetch("/read");
     const messages = await response.json();
 
     const container = document.getElementById("container")
