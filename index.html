@@ -27,6 +27,8 @@
     const inputElement = document.getElementById('myInput');
     const inputValue = inputElement.value;
     const response = await fetch("/message?text=" + inputValue);
+    inputElement.value = '';
+    displayMessage();
   }
 
 
@@ -35,7 +37,7 @@
     const messages = await response.json();
 
     const container = document.getElementById("container")
-    container.innerHTML = ""
+    container.innerHTML = "";
 
     for (const message of messages) {
       const p = document.createElement("p")
@@ -43,7 +45,8 @@
       container.appendChild(p)
     }
   }
-
+  setInterval(displayMessage, 5000);
+  window.onload = displayMessage;
 </script>
 
 </html>

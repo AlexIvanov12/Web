@@ -8,27 +8,33 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const messages_list = [
-]
+const Message = require('./models/message');
+
+app.use(express.json());
 
 
-app.get('/message', (req, res) => {
-  messages_list.push(req.query.text)
-  res.statusCode = 200
-  res.send()
-})
+app.get('/message', async (req, res) => {
+ const messageText = req.query.text;
+ if (messageText){
+  const message = new Message({text: messageText});
+  await message.save();
+  res.status(200).send();
+  } else{
+    res.status(400).send('Message text is required');
+  }
+});
 
-app.get('/read', (req, res) => {
-  res.send(messages_list)
-  console.log(messages_list)
-})
+app.get('/read', async (req, res) => {
+  const message = await Message.find().sort({createdAt: -1});
+  res.json(message);
+});
 
-app.get('/', function (req, res) {
+app.get('/',  (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});
 
 
